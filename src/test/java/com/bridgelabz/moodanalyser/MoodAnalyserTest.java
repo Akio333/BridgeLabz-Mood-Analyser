@@ -2,6 +2,7 @@ package com.bridgelabz.moodanalyser;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 public class MoodAnalyserTest
 {
@@ -27,10 +28,22 @@ public class MoodAnalyserTest
     }
 
     @Test
-    public void givenNullMoodShouldThrowException() throws Exception {
+    public void givenNullMoodShouldThrowException() {
+        try {
             MoodAnalyser moodAnalyser = new MoodAnalyser(null);
-            String mood= moodAnalyser.analyseMood();
-            Assert.assertEquals("Happy",mood);
+            moodAnalyser.analyseMood();
+        } catch (MoodAnalysisException moodAnalysisException) {
+            Assert.assertEquals("NULL_MESSAGE: Message can not be Null.",moodAnalysisException.getMessage());
+        }
+    }
+    @Test
+    public void givenMessageEmpty_shouldThrow_MoodAnalyserException(){
+        try {
+            MoodAnalyser moodAnalyser = new MoodAnalyser("");
+            moodAnalyser.analyseMood();
+        } catch (MoodAnalysisException moodAnalysisException) {
+            Assert.assertEquals("EMPTY_MESSAGE: Message can not be Empty.",moodAnalysisException.getMessage());
+        }
     }
 }
 
